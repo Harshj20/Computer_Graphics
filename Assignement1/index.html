@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+    <title>Assignement 1</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+  <script src="index.js"></script>
+
+</head>
+<body onload="webGLStart();">
+  <canvas id="myCanvas" style="border: 1px solid black;" width="500" height="500"></canvas>
+<br>
+  <h3>Change Draw Mode:</h3>
+  <button id="dot" onclick="toggle(1)"> Point View </button>
+  <button id="wireframe" onclick="toggle(2)"> WireFrame View </button>
+  <button id="solid" onclick="toggle(3)"> Solid View </button>
+</body>
+</html>

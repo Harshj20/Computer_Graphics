@@ -1,0 +1,15 @@
+canvas{
+    border: 1px solid black;
+    background-color: white;
+    margin: 10px auto;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width:min(500px, 98vw);
+    aspect-ratio: 1;
+}
+
+button{
+    display:block;
+    margin: 10px ;
+}
