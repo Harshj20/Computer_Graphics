@@ -125,7 +125,7 @@ function drawCube(color = [1.0, 1.0, 0.0, 1.0]){
     0
   );
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, spTexBuf);
+  gl.bindBuffer(gl.ARRAY_BUFFER, cubeTexBuf);
   gl.vertexAttribPointer(
     aTexCoordLocation,
     spTexBuf.itemSize,
@@ -146,11 +146,15 @@ function drawCube(color = [1.0, 1.0, 0.0, 1.0]){
   );
   // draw elementary arrays - triangle indices
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuf);
-
+  gl.uniform1f(doRefraction, REFRACTIVE_INDEX);
   gl.uniform4fv(uDiffuseTermLocation, color);
   gl.uniformMatrix4fv(uMMatrixLocation, false, mMatrix);
   gl.uniformMatrix4fv(uVMatrixLocation, false, vMatrix);
   gl.uniformMatrix4fv(uPMatrixLocation, false, pMatrix);
+
+  gl.activeTexture(gl.TEXTURE1); // set texture unit 0 to use
+  gl.bindTexture(gl.TEXTURE_2D, textureMap); // bind the texture object to the texture unit
+  gl.uniform1i(uTextureLocation, 1); // pass the texture unit to the shader
 
   gl.drawElements(gl.TRIANGLES, indexBuf.numItems, gl.UNSIGNED_SHORT, 0);
 }

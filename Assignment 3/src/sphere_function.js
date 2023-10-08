@@ -55,13 +55,7 @@ function initSphere(nslices, nstacks, radius) {
     gl.bindBuffer(gl.ARRAY_BUFFER, spBuf);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(spVerts), gl.STATIC_DRAW);
     spBuf.itemSize = 3;
-    spBuf.numItems = nslices * nstacks;
-  
-    spNormalBuf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, spNormalBuf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(spNormals), gl.STATIC_DRAW);
-    spNormalBuf.itemSize = 3;
-    spNormalBuf.numItems = nslices * nstacks;
+    spBuf.numItems = spVerts.length / 3;
   
     spIndexBuf = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, spIndexBuf);
@@ -71,7 +65,13 @@ function initSphere(nslices, nstacks, radius) {
       gl.STATIC_DRAW
     );
     spIndexBuf.itemsize = 1;
-    spIndexBuf.numItems = (nstacks - 1) * 6 * (nslices + 1);
+    spIndexBuf.numItems = spIndicies.length;
+
+    spNormalBuf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, spNormalBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(spNormals), gl.STATIC_DRAW);
+    spNormalBuf.itemSize = 3;
+    spNormalBuf.numItems = spNormals / 3;
 
     spTexBuf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, spTexBuf);
@@ -91,15 +91,15 @@ function initSphere(nslices, nstacks, radius) {
       0
     );
 
-    // gl.bindBuffer(gl.ARRAY_BUFFER, spTexBuf);
-    // gl.vertexAttribPointer(
-    //   aTexCoordLocation,
-    //   spTexBuf.itemSize,
-    //   gl.FLOAT,
-    //   false,
-    //   0,
-    //   0
-    // );
+    gl.bindBuffer(gl.ARRAY_BUFFER, spTexBuf);
+    gl.vertexAttribPointer(
+      aTexCoordLocation,
+      spTexBuf.itemSize,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
   
     gl.bindBuffer(gl.ARRAY_BUFFER, spNormalBuf);
     gl.vertexAttribPointer(
@@ -112,18 +112,18 @@ function initSphere(nslices, nstacks, radius) {
     );
     // draw elementary arrays - triangle indices
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, spIndexBuf);
-  
+    gl.uniform1f(doRefraction, REFRACTIVE_INDEX);
+
     gl.uniform4fv(uDiffuseTermLocation, color);
+
     gl.uniformMatrix4fv(uMMatrixLocation, false, mMatrix);
     gl.uniformMatrix4fv(uVMatrixLocation, false, vMatrix);
     gl.uniformMatrix4fv(uPMatrixLocation, false, pMatrix);
  
   // for texture binding
   // gl.uniform1i(isTexture, doTexture);
-  // gl.activeTexture(gl.TEXTURE0); // set texture unit 0 to use
-  // gl.bindTexture(gl.TEXTURE_2D, sampleTexture); // bind the texture object to the texture unit
-  // gl.uniform1i(uTextureLocation, 0); // pass the texture unit to the shader
+    gl.activeTexture(gl.TEXTURE1); // set texture unit 0 to use
+    gl.bindTexture(gl.TEXTURE_2D, textureMap); // bind the texture object to the texture unit
+    gl.uniform1i(uTextureLocation, 1); // pass the texture unit to the shader
     gl.drawElements(gl.TRIANGLES, spIndexBuf.numItems, gl.UNSIGNED_INT, 0);
-    // gl.drawArrays(gl.LINE_STRIP, 0, buf.numItems); // show lines
-    // gl.drawArrays(gl.POINTS, 0, buf.numItems); // show points
   }

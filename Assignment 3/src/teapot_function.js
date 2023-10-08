@@ -3,6 +3,7 @@ input_JSON = "../teapot.json";
 var objVertexPositionBuffer;
 var objVertexNormalBuffer;
 var objVertexIndexBuffer;
+var objVertexTexBuffer;
 
 function initObject() {
     // XMLHttpRequest objects are used to interact with servers
@@ -53,7 +54,17 @@ function initObject() {
     objVertexIndexBuffer.itemSize = 1;
     objVertexIndexBuffer.numItems = objData.indices.length;
 
-    drawScene();
+    objVertexTexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, objVertexTexBuffer);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array(objData.vertexTextureCoords),
+      gl.STATIC_DRAW
+    );
+    objVertexTexBuffer.itemSize = 2;
+    objVertexTexBuffer.numItems = objData.vertexTextureCoords.length / 2;
+
+    // drawScene();
   }
 
   function drawObject(color) {
@@ -75,18 +86,27 @@ function initObject() {
       0,
       0
     );
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, objVertexTexBuffer);
+    gl.vertexAttribPointer(
+      aTexCoordLocation,
+      objVertexTexBuffer.itemSize,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
   
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, objVertexIndexBuffer);
-  
+    gl.uniform1f(doRefraction, REFRACTIVE_INDEX);
+
     gl.uniform4fv(uDiffuseTermLocation, color);
     gl.uniformMatrix4fv(uMMatrixLocation, false, mMatrix);
     gl.uniformMatrix4fv(uVMatrixLocation, false, vMatrix);
     gl.uniformMatrix4fv(uPMatrixLocation, false, pMatrix);
   
-    gl.drawElements(
-      gl.TRIANGLES,
-      objVertexIndexBuffer.numItems,
-      gl.UNSIGNED_INT,
-      0
-    );
+    gl.activeTexture(gl.TEXTURE1); // set texture unit 0 to use
+    gl.bindTexture(gl.TEXTURE_2D, textureMap); // bind the texture object to the texture unit
+    gl.uniform1i(uTextureLocation, 1); // pass the texture unit to the shader
+    gl.drawElements(gl.TRIANGLES, objVertexIndexBuffer.numItems, gl.UNSIGNED_INT, 0);
   }
