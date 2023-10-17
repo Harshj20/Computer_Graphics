@@ -50,7 +50,7 @@ jobs:
           name: skybox
           path: './Assignment 3/skybox'
       - name: Upload additional files 3
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: teapot.json
           path: './Assignment 3/teapot.json'
