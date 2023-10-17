@@ -38,6 +38,14 @@ jobs:
         with:
           # Upload entire repository
           path: './Assignment 3/src'
+      - name: Upload additional files
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './Assignment 3'
+      # - name: Upload additional files
+      #   uses: actions/upload-pages-artifact@v2
+      #   with:
+      #     path: './Assignment 3/skybox'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
