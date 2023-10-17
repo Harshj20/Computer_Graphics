@@ -37,15 +37,23 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           # Upload entire repository
+          name: src
           path: './Assignment 3/src'
       - name: Upload additional files
         uses: actions/upload-pages-artifact@v2
         with:
-          path: './Assignment 3'
-      # - name: Upload additional files
-      #   uses: actions/upload-pages-artifact@v2
-      #   with:
-      #     path: './Assignment 3/skybox'
+          name: textures
+          path: './Assignment 3/textures'
+      - name: Upload additional files 2
+        uses: actions/upload-pages-artifact@v2
+        with:
+          name: skybox
+          path: './Assignment 3/skybox'
+      - name: Upload additional files 3
+        uses: actions/upload-pages-artifact@v2
+        with:
+          name: teapot.json
+          path: './Assignment 3/teapot.json'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
