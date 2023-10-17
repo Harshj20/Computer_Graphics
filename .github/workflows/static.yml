@@ -33,27 +33,32 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload src Directory
+        uses: actions/upload-artifact@v2
         with:
-          # Upload entire repository
           name: src
-          path: './Assignment 3/src'
-      - name: Upload additional files
-        uses: actions/upload-pages-artifact@v2
+          path: Assignment 3/src
+
+      - name: Upload textures Directory
+        uses: actions/upload-artifact@v2
         with:
           name: textures
-          path: './Assignment 3/textures'
-      - name: Upload additional files 2
-        uses: actions/upload-pages-artifact@v2
+          path: Assignment 3/textures
+
+      - name: Upload skybox Directory
+        uses: actions/upload-artifact@v2
         with:
           name: skybox
-          path: './Assignment 3/skybox'
-      - name: Upload additional files 3
+          path: Assignment 3/skybox
+
+      - name: Upload teapot.json File
         uses: actions/upload-artifact@v2
         with:
           name: teapot.json
-          path: './Assignment 3/teapot.json'
+          path: Assignment 3/teapot.json
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./src
